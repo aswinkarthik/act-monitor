@@ -10,7 +10,7 @@ app.set('view engine', 'ejs');
 app.get('/', function (req, res) {
 	data = actService.getUsage()
 	res.render('pages/index',{
-		data: data
+		data: {usage:'None'}
 	});
 });
 
