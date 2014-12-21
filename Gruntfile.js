@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       },
 
       server: {
-        files: 'app.js',
+        files: ['app.js', 'service/**/*.js'],
         tasks: ['express:web'],
         options: {
           atBegin: true,
