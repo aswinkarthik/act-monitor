@@ -8,10 +8,14 @@ app.use(morgan('dev'));
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-	data = actService.getUsage()
-	res.render('pages/index',{
-		data: {usage:'None'}
+	usageData = 'None';
+	actService.getUsage(function(param){
+		usageData = param;
+		res.render('pages/index',{
+			data: {usage: usageData}
+		});
 	});
+	
 });
 
 var server = app.listen(3000, function () {
