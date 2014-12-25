@@ -73,6 +73,7 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('build',['bower', 'clean','sass', 'uglify']);
+  grunt.registerTask('heroku', ['build']);
   grunt.registerTask('default', ['build', 'watch']);
 
 };
