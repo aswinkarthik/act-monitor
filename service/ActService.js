@@ -5,13 +5,13 @@ var request = require('request'),
 	cheerio = require('cheerio');
 
 module.exports = {
-	getUsage: function(success) {
+	getUsage: function(username, password, success, failure) {
 		var output = "";
 		console.log("Authenticating user...");
 		result = request.post(actAuthUrl, {
 				form: {
-					webuser: "username",
-					pwd: "password"
+					webuser: username,
+					pwd: password
 				}
 			}, 
 			function(error, response, body){
@@ -31,6 +31,7 @@ module.exports = {
 
 						if(table.length < 1) {
 							console.log("Failed");
+							failure();
 						}
 						
 						for(i = 0; i < table.length; i++) {
@@ -43,7 +44,7 @@ module.exports = {
 								}
 								if( row['name'] !== undefined && row['name'] === 'td' && selected == i) {
 									output += row['children'][0]['children'][0]['data'];
-									console.log("Ended");
+									console.log("Request ended");
 									success(output);
 								}									
 							});

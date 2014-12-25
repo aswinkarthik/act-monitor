@@ -1,32 +1,44 @@
-var express = require('express');
-var app = express();
-var morgan = require('morgan');
+var express = require('express'),
+	app = express(),
+	morgan = require('morgan'),
+	bodyParser = require('body-parser');
 var actService = require('./service/ActService');
 
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: false
+}));
+
+
 app.set('view engine', 'ejs');
 
-app.get('/', function (req,res){
-	res.render('pages/login');
-});
-
-app.post('/usage', function (req, res) {
-	usageData = 'None';
-	actService.getUsage(
+function processRequest(req,res) {
+	actService.getUsage( req.body.webuser, req.body.pwd,
 		function(param){
-			usageData = param;
-			res.render('pages/index',{
-				data: {usage: usageData}
+			matches = param.match(/[0-9]+\.[0-9]+/g);
+			used = matches[0];
+			total = matches[1];
+			unused = (parseFloat(total) - parseFloat(used)).toFixed(2);
+			res.render('pages/donut3d',{
+				data: {used: used, unused: unused, total: total}
 			});
 		},
 		function(param) {
 			res.render('pages/login',{
-				message: 'Username/Password does not match'
+				message: 'Username/Password does not match | You are not ac ACT Broadband user'
 			});
 		}
 	);
-	
+}
+
+app.get('/', function (req,res){
+	processRequest(req,res);
+});
+
+app.post('/', function (req,res){
+	processRequest(req,res);
 });
 
 var server = app.listen(3000, function () {
