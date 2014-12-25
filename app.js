@@ -28,7 +28,7 @@ function processRequest(req,res) {
 		},
 		function(param) {
 			res.render('pages/login',{
-				message: 'Username/Password does not match | You are not ac ACT Broadband user'
+				message: 'Enter Username/Password'
 			});
 		}
 	);
