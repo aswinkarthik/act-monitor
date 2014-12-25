@@ -5,10 +5,9 @@ var request = require('request'),
 	cheerio = require('cheerio');
 
 module.exports = {
-	getUsage: function(callback) {
+	getUsage: function(success) {
 		var output = "";
 		console.log("Authenticating user...");
-
 		result = request.post(actAuthUrl, {
 				form: {
 					webuser: "username",
@@ -29,6 +28,10 @@ module.exports = {
 						var i = 0;
 						var table = $("div.moduletable table tr");
 						var selected = -1;
+
+						if(table.length < 1) {
+							console.log("Failed");
+						}
 						
 						for(i = 0; i < table.length; i++) {
 
@@ -41,7 +44,7 @@ module.exports = {
 								if( row['name'] !== undefined && row['name'] === 'td' && selected == i) {
 									output += row['children'][0]['children'][0]['data'];
 									console.log("Ended");
-									callback(output);
+									success(output);
 								}									
 							});
 						}

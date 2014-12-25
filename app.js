@@ -7,14 +7,25 @@ app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.set('view engine', 'ejs');
 
-app.get('/', function (req, res) {
+app.get('/', function (req,res){
+	res.render('pages/login');
+});
+
+app.post('/usage', function (req, res) {
 	usageData = 'None';
-	actService.getUsage(function(param){
-		usageData = param;
-		res.render('pages/index',{
-			data: {usage: usageData}
-		});
-	});
+	actService.getUsage(
+		function(param){
+			usageData = param;
+			res.render('pages/index',{
+				data: {usage: usageData}
+			});
+		},
+		function(param) {
+			res.render('pages/login',{
+				message: 'Username/Password does not match'
+			});
+		}
+	);
 	
 });
 

@@ -6,9 +6,18 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     clean: ['public/*'],
+
+    bower: {
+      install: {
+        options: {
+          copy: false
+        }
+      }
+    },
     
     sass: {
       options: {
+        includePaths: [ './bower_components' ],
         outputStyle: "compressed"
       },
       dist: {
@@ -21,7 +30,15 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         files: {
-          'public/index.js': ['assets/js/index.js']
+          'public/index.js': ['public/index.js']
+        }
+      }
+    },
+
+    uglify: {
+      dist: {
+        files: {
+          'public/index.js': ['assets/js/**/*.js']
         }
       }
     },
@@ -55,7 +72,7 @@ module.exports = function(grunt) {
 
 
   // Default task(s).
-  grunt.registerTask('build',['clean','sass', 'browserify']);
+  grunt.registerTask('build',['bower', 'clean','sass', 'uglify']);
   grunt.registerTask('default', ['build', 'watch']);
 
 };

@@ -1,3 +1,9 @@
 html {
-	background-color: white;
+	background-color: $primary-dark;
+	color: $primary-light;
+	font-family: 'Ubuntu', sans-serif;
+
+	.container {
+		width: 100%;
+	}
 }
