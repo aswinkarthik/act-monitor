@@ -1,3 +1,4 @@
+
 module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
@@ -46,7 +47,6 @@ module.exports = function(grunt) {
     express: {
       web: {
         options: {
-          port: 3000,  
           script: 'app.js'
         }
       }

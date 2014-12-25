@@ -3,6 +3,7 @@ var express = require('express'),
 	morgan = require('morgan'),
 	bodyParser = require('body-parser');
 var actService = require('./service/ActService');
+var port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
@@ -41,7 +42,7 @@ app.post('/', function (req,res){
 	processRequest(req,res);
 });
 
-var server = app.listen(3000, function () {
+var server = app.listen(port, function () {
 
   var host = server.address().address
   var port = server.address().port
